@@ -1,5 +1,3 @@
--- Writer, Option, Promise/Future, None, Result
-
 square :: Int -> Int
 square x = x * x
 
@@ -9,8 +7,8 @@ addOne x = x + 1
 anotherFn :: Int -> String
 anotherFn x = "The number is: " ++ show x
 
-identity :: (Show a) => a -> String
-identity x = "The value is: " ++ show x
+--identity :: (Show a) => a -> String
+--identity x = "The value is: " ++ show x
 
 data Result a = Result
   { value :: a
@@ -29,14 +27,14 @@ addOneWithLogs x = Result {
     logs = ["Added 1 to " ++ show x ++ " to get " ++ show (addOne x) ++ "."]
   }
 
-wrapWithLogs :: a -> Result a
-wrapWithLogs x = Result {
+wrap :: a -> Result a
+wrap x = Result {
     value = x,
     logs = []
   }
 
-runWithLogs :: Result a -> (a -> Result b) -> Result b
-runWithLogs input transform =
+run :: Result a -> (a -> Result b) -> Result b
+run input transform =
   Result {
     value = (value newValue),
     logs = (logs input) ++ (logs newValue)
@@ -45,4 +43,4 @@ runWithLogs input transform =
 
 main :: IO ()
 main = do
-  print $ (logs (((addOneWithLogs 2) `runWithLogs` squareWithLogs) `runWithLogs` addOneWithLogs))
+  print $ (logs (((addOneWithLogs 2) `run` squareWithLogs) `run` addOneWithLogs))
